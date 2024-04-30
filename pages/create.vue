@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <v-form @submit.prevent="createUser()">
+    <div >
+        <v-form  @submit.prevent="createUser()">
             <div>
-                <v-text-field v-model="user.UserID" type="number" label="UserID" />
+                <v-text-field   v-model="user.UserID" type="number" label="UserID" />
                 <v-text-field v-model="user.Password" type="text" label="Password" />
                 <v-select ref="select" v-model="selectedItems" :items="user.roles" label="Select" multiple chips
                     hint="What are the target regions" persistent-hint :max-items="2"
@@ -11,7 +11,7 @@
                 <v-text-field v-model="user.Lastname" type="text" label="Lastname" />
                 <v-text-field v-model="user.Callname" type="text" label="Callname" />
 
-                <v-btn type="submit">Create</v-btn>
+                <v-btn  type="submit">Create</v-btn>
 
 
             </div>

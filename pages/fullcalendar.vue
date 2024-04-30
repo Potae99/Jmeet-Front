@@ -4,23 +4,21 @@
       <v-row no-gutters>
         <v-col cols="12" sm="4">
           <v-sheet class="ma-2 pa-2">
+            <p>Start</p>
             <v-text-field type="date" v-model="eventStartDate" />
             <v-text-field type="time" v-model="eventStartTime" />
-            <!-- <v-text-field type="date" v-model="eventEndDate" />
-            <v-text-field type="time" v-model="eventEndTime" /> -->
-            <v-radio-group v-model="row" row>
-              <v-radio label="Start Meeting" value="radio-1"></v-radio>
-              <v-radio label="End Meeting" value="radio-2"></v-radio>
+            <p>End</p>
+            <v-text-field type="date" v-model="eventEndDate" />
+            <v-text-field type="time" v-model="eventEndTime" />
+            <v-radio-group v-model="selectedOption" row>
+              <v-radio label="Start Meeting" value="start"></v-radio>
+              <v-radio label="End Meeting" value="end"></v-radio>
             </v-radio-group>
           </v-sheet>
-
         </v-col>
-
       </v-row>
     </v-container>
     <v-btn @click="addEvent">Add Event</v-btn>
-    <!-- <v-btn @click="endEvent">End Event</v-btn> -->
-
     <FullCalendar :options="calendarOptions" />
   </div>
 </template>
@@ -36,13 +34,12 @@ export default {
   },
   data() {
     return {
-      textTitle: '', 
-      eventStartDate: '', 
-      eventStartTime: '', 
-      eventEndDate: '', 
-      eventEndTime: '', 
-      addingEnd: false, 
-      row: '',
+      textTitle: 'ooooo',
+      eventStartDate: '',
+      eventStartTime: '',
+      eventEndDate: '',
+      eventEndTime: '',
+      selectedOption: '',
       calendarOptions: {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: 'dayGridMonth',
@@ -58,30 +55,23 @@ export default {
       alert('date click! ' + info.dateStr)
     },
     addEvent() {
-      if (this.eventStartDate && this.eventStartTime) {
-        const eventStartDateTime = `${this.eventStartDate}T${this.eventStartTime}`; 
-        if (this.row === 'radio-1') { // Check if Option 1 is selected
-          this.calendarOptions.events.push({ title: this.radioText(), start: eventStartDateTime }); // Add Option 1 event
-          if (this.row === 'radio-2') { // Check if Option 2 is selected after Option 1
-            this.calendarOptions.events.push({ title: this.radioText(), start: eventStartDateTime }); // Add Option 2 event
-          }
-        } else {
-          alert('Please select Option 1 first.');
+      if (this.eventStartDate && this.eventStartTime && this.eventEndDate && this.eventEndTime) {
+        const eventStartDateTime = `${this.eventStartDate}T${this.eventStartTime}`;
+        const eventEndDateTime = `${this.eventEndDate}T${this.eventEndTime}`;
+
+        if (this.selectedOption === 'start') {
+          this.calendarOptions.events.push({ title: 'oooo', start: eventStartDateTime });
+          this.calendarOptions.events.push({ title: 'oooo', start: eventEndDateTime });
         }
-        this.eventStartDate = ''; 
-        this.eventStartTime = ''; 
-        this.addingEnd = true; 
+
+        this.eventStartDate = '';
+        this.eventStartTime = '';
+        this.eventEndDate = '';
+        this.eventEndTime = '';
+        this.selectedOption = '';
       } else {
-        alert('Please select both start date and time.');
+        alert('Please select both start and end date and time.');
       }
-    },
-    radioText() {
-      if (this.row === 'radio-1') {
-        this.textTitle = 'Start Meeting';
-      } else if (this.row === 'radio-2') {
-        this.textTitle = 'End Meeting';
-      }
-      return this.textTitle; 
     }
   }
 }
